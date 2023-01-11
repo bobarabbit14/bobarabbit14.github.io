@@ -105,13 +105,9 @@
         ul {
           list-style-type: "\1F498";
         }
-        p {
-          font-family: 'Raleway', sans-serif;
-        }
         li {
           margin-block-start:0.5em;
           margin-block-end: 0.5em;
-          font-family: 'Raleway', sans-serif;
         }
         /* Accordion */
         .accordion {
@@ -400,8 +396,6 @@
           So I’ll end this section here, but if you’re interested in more things that I loved about you, give the window
           below a scroll.  I’ve included my version of the 10 things, except I couldn’t stop at 10 😝
         </p>
-
-
 
         <!-- Carousel -->
         <div class="slider">
@@ -795,6 +789,16 @@
         if (e.keyCode === 13) enterPassword();
     });
     inputPass.focus();
+  </script>
+  
+  <!-- User Agent -->
+  <script>
+    if (navigator.userAgent?.indexOf('iphone') > -1 || navigator.userAgent?.indexOf('android') > -1) {
+        const panels = document.querySelectorAll('.panel');
+        panels.forEach(panel => {
+            panel.style.fontSize = '20px';
+        });
+    }
   </script>
 
   <!-- Dev Mode -->
