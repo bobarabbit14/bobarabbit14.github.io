@@ -705,7 +705,7 @@
           K
         </p>
       </div>
-      <p></p>
+      <p id="debug"></p>
     </div>
   </body>
 
@@ -796,9 +796,10 @@
     if (navigator.userAgent?.indexOf('iphone') > -1 || navigator.userAgent?.indexOf('android') > -1) {
         const panels = document.querySelectorAll('.panel');
         panels.forEach(panel => {
-            panel.style.fontSize = '20px';
+            panel.style.fontSize = '18px';
         });
     }
+    document.querySelector('#debug').textContent = navigator.userAgent;
   </script>
 
   <!-- Dev Mode -->
