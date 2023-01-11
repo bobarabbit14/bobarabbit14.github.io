@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title id="title">Password?</title>
+
+    <!-- Fav Icon -->
+    <link rel="icon" type="image/png" href=""/>
+    <script>
+      const canvasOrig = document.createElement('canvas');
+      canvasOrig.height = 32;
+      canvasOrig.width = 32;
+
+      const canvasNew = document.createElement('canvas');
+      canvasNew.height = 32;
+      canvasNew.width = 32;
+  
+      const ctx2 = canvasOrig.getContext('2d');
+      ctx2.font = '30px serif';
+      ctx2.fillText('🤔', -2, 25);
+
+      const ctx = canvasNew.getContext('2d');
+      ctx.font = '30px serif';
+      ctx.fillText('🥰', -2, 25);
+
+      document.querySelector('link[rel=icon]').href = canvasOrig.toDataURL();
+      const updateTitles = () => {
+        document.querySelector('#title').textContent = 'A Love Confession 🥰🥰🥰';
+        document.querySelector('link[rel=icon]').href = canvasNew.toDataURL();
+      }
+    </script>
+
+    <!-- Font Stuff -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Italiana&family=Raleway:ital,wght@1,200;1,400;1,700&family=Tangerine&display=swap" rel="stylesheet">
+    <style>
+        /* Fonts */
+        .header {
+          font-family: 'Italiana', serif;
+          font-size: 35px;
+        }
+        .body {
+          font-family: 'Raleway', sans-serif;
+          font-size: 20px;
+        }
+        /* Pusheen */
+        .highlight {
+          position: relative;
+        }
+        .highlight-background {
+          background-color: white;
+          border-radius: 15px;
+          margin: -5px;
+          z-index: -3;
+          position: relative;
+        }
+        .highlight-background::before {
+          content: "";
+          background-image: url('cutePusheen.jpeg');
+          background-repeat: no-repeat;
+          background-position: center;
+          position: absolute;
+          opacity: 0.3;
+          top: 0px;
+          right: 0px;
+          bottom: 0px;
+          left: 0px;
+          z-index: -2;
+        }
+        .highlight-background::after {
+          content: "";
+          background-color: pink;
+          position: absolute;
+          opacity: 0.3;
+          top: 0px;
+          right: 0px;
+          bottom: 0px;
+          left: 0px;
+          z-index: -1;
+          border-radius: 15px;
+          margin: -5px;
+        }
+        /* Background image */
+        #main {
+          position: relative;
+        }
+        #main::before {
+          content: "";
+          background-image: url('cuteBears.jpeg');
+          position: absolute;
+          opacity: .2;
+          top: 0px;
+          right: 0px;
+          bottom: 0px;
+          left: 0px;
+          z-index: -4;
+        }
+        em {
+          font-weight: bolder;
+        }
+        ul {
+          list-style-type: "\1F498";
+        }
+        li {
+          margin-block-start:0.5em;
+          margin-block-end: 0.5em;
+        }
+        /* Accordion */
+        .accordion {
+          font-family: 'Italiana', serif;
+          font-size: 45px;
+          background-color: rgb(253, 226, 247);
+          color: rgb(155, 28, 159);
+          cursor: pointer;
+          padding: 18px;
+          width: 100%;
+          text-align: left;
+          border: none;
+          outline: none;
+          transition: 0.4s;
+        }
+        .active, .accordion:hover {
+          background-color: rgb(239, 178, 225);
+        }
+        .panel {
+          font-family: 'Raleway', sans-serif;
+          font-size: 30px;
+          padding: 0 18px;
+          /*background-color: white;*/
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 1s ease-out;
+        }
+        .accordion:after {
+          font-size: 35px;
+          content: '\02795'; /* Unicode character for "plus" sign (+) */
+          color: blue;
+          float: right;
+          margin-left: 5px;
+        }
+        .active:after {
+          content: "\2796"; /* Unicode character for "minus" sign (-) */
+        }
+        /* Carousel */
+        .slider {
+          width: 100%;
+          max-width: 800px;
+          height: 350px;
+          position: relative;
+          overflow: hidden;
+          margin: auto;
+        }
+        .slider-background {
+          content: "";
+          background-color: white;
+          border-radius: 15px;
+          z-index: -3;
+          position: relative;
+          width: 100%;
+          height: 350px;
+        }
+        .slider-background::before {
+          content: "";
+          background-image: url('elegantHeart.png');
+          background-size: 50%;
+          background-repeat: no-repeat;
+          position: absolute;
+          opacity: .1;
+          top: 15%;
+          right: 0px;
+          bottom: 0px;
+          left: 15%;
+          z-index: -2;
+        }
+        .slider-background::after {
+          content: "";
+          background-color: rgb(255, 172, 212);
+          position: absolute;
+          opacity: 0.25;
+          top: 0px;
+          right: 0px;
+          bottom: 0px;
+          left: 0px;
+          z-index: -1;
+          border-radius: 15px;
+        }
+        .slide-wrapper {
+          width: 100%;
+          height: 350px;
+          position: absolute;
+          transition: all 0.5s;
+        }
+        .slide {
+          width: 100%;
+          max-width: 800px;
+          height: 350px;
+          position: absolute;
+          text-align: center;
+          vertical-align: middle;
+          border-radius: 15px;
+          padding-left: 10px;
+          padding-right: 10px;
+          box-sizing: border-box;
+        }
+        .btn {
+          position: absolute;
+          width: 40px;
+          height: 40px;
+          padding: 10px;
+          border: none;
+          border-radius: 50%;
+          z-index: 10px;
+          cursor: pointer;
+          background-color: #fff;
+          font-size: 18px;
+          text-align: center;
+          vertical-align: middle;
+        }
+        .btn:active {
+          transform: scale(1.1);
+        }
+        .btn-prev {
+          bottom: 2%;
+          /*top: 45%;*/
+          left: 2%;
+        }
+        .btn-next {
+          bottom: 2%;
+          right: 2%;
+          /*top: 45%;*/
+        }
+        .btn-random {
+          bottom: 2%;
+          left: 48%;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="password">
+      <div class="header"><p>What does B mean?</p></div>
+      <input id="inputPass" class="body" placeholder="password">
+      <button id="subPass" class="body">Enter</button>
+      <p><div id="errPass" class="body"></div></p>
+    </div>
+    <div id="main" style="display:none;">
+      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/7cCooCTsZ836uiL19QNDLr?utm_source=generator" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <button class="accordion">Hello 👋</button>  
+      <div class="panel">
+        <p>
+          Dear B ⛰️ 🥮 -
+        </p>
+        <p>
+          Creamed colored coat with belt undone, mid-height dark boots, a single blond braid, green
+          purse.  My first impression, this girl sure has a lot of things hanging off of her 😂.  Your
+          look was pretty flashy compared to what I was used to in California.  I remember you said
+          you wore mis-matched shoes by accident at first, that probably would have worked with the
+          outfit.
+        </p>
+        <p>
+          Pink plaid pants, cork bottomed high healed sandals, white strapless top, white square earrings with a portrait of a lady.  Another loud outfit, but I’m starting to dig it, I can appreciate the effort,
+          and the creativity.  I guess she’s not the weeb I thought she was from our video chat.
+        </p>
+        <p>
+          What’s this all about?  It’s simple really, somewhere in between that first k-town meeting
+          and the “bye Felicia” on canal street 2 weeks later, you made me feel something I’ve never
+          felt before and haven’t felt since 🙏.  I wasn’t BSing when I said “I feel like I have something
+          to lose,” or when “B*** D***” accidentally slipped out, those were both firsts for me, that
+          to this day I’ve never said to nor felt about anyone else.  I know you already know all of
+          this though so what now?
+        </p>
+        <p>
+          Well, I don’t want to live with any regrets, and I thought maybe just maybe in the spirit
+          of the holiday season and if you’re feeling generous, maybe you’ll give this a little read.  And maybe I’ll
+          get the opportunity to share all the thoughts I wished I had the opportunity to tell you in
+          person.  Maybe you’ll give me the gift of living with no regrets and finally being able to
+          share my heart with you a little.  
+          Don’t worry it’s a gift 🎁, no strings attached,
+          but if you do decide to forgive all the rude things I’ve said and want to have a conversation
+          again, I won’t say no 🥹.
+        </p>
+        <p>
+          Also some people seem to think I need to just bare my
+          heart once and for all and get it all out to get that closure.  And I agree, so selfishly
+          this is for me as much as it is for you, but if it puts a smile on your face, I'll be glad 🙂.
+        </p>
+      </div>
+      <button class="accordion">Apology</button>  
+      <div class="panel">
+        <p>
+          Okay, let’s address the elephant in the room.  Yes, I’ve said some pretty offensive things to
+          you, and all I can say is I’m sorry.  I’ve talked it out with a lot of people about our situation
+          this summer and everyone maintains that you don’t owe me anything, and that he who shall not be
+          named was the one who did me dirty.  A heads up from this person could have been at least been
+          the baseline decent thing to do, I’m not surprised though.  I'd probably lie, steal, cheat, etc. for a
+          shot with you too 😂.  And in the moment, finding out from
+          you, ya the first thing I could think of was “betrayal!”, I’m sorry I took it out on you.  Seeing
+          as how mature you are, I know that you’ve seen your fair share of hurt so even if you don’t forgive
+          me, maybe you can understand a little of what I was going through. It’s no excuse, but it’s the best
+          I can offer you, and I’m sorry 😔.
+        </p>
+        <p>
+          I was especially hurt when you admitted
+          to having feelings for this person the whole time we were being intimate.  Regardles of our circumstances
+          or what we agreed on, can you imagine someone telling you after enjoying your body that they were thinking
+          of someone else the whole time?  I can only hope that I misunderstood you, but I guess that really put me
+          over the edge.  I guess I just want you to understand my heart a little.  We <em>are</em> the same type of animal
+          after all, right?  Anyways, I'm sorry for all of that 😔.
+        </p>
+      </div>
+      <button class="accordion">About you - Why I think you're amazing... 💕💕</button>  
+      <div class="panel">
+        <p>
+          Okay, on to the fun stuff.  Here is my love confession.  All the things I loved about you and why
+          you’re amazing and awesome.  All the things that I wanted you to know about yourself 🥰 that I can
+          finally get off my chest.
+        </p>
+        <p>
+          Okay, first things first, two years later and I just can’t move on… even after over two years of
+          direct rejection from the princess of mooncakes herself, and countless eye rolls and exasperated
+          sighs from friends listening to me gush about you for the 100th time.  Is this normal?  Why am
+          I like this?
+        </p>
+        <ol>
+          <li>
+            <p>
+              I don’t really understand it myself, but after a lot of reflection I can attempt to attribute it
+              down to 2 main things.  The first is that I felt that we really got along well.  Hanging out with
+              you felt really comfortable and natural.  I loved that you were down for anything - shopping, eating,
+              walking around the city.  Sitting on the west side and having such a good time you forgot your
+              purse!  Even though it was the middle of the pandemic and we didn’t do anything too flashy, it just
+              seemed like we always had a good time.
+            </p>
+            <p>
+              I asked your friends about you a bit at Haiyin’s boyfriend’s party.  June’s tall Spanish boyfriend
+              said that you were the best in the group at some shooting game you guys played (PUBG?).  I loved that
+              you were down to explore stuff like gaming and snowboarding.  I remember you ride regular, but goofy
+              when you get on the lift.  I ride goofy too so it would have worked out well and would have been super
+              fun to go snowboarding with you.  Haiyin also said you spent alot of time in the kitchen when you were
+              living together and I was also super curious to taste your cooking.
+              
+              Anyways, In life, I feel that I’m a curious person and I love exploring new
+              things.  I guess what I saw in you was someone who was open-minded to new experiences and who would
+              be an amazing companion to explore all the rest of what life has to offer and to have a great time
+              doing it together.
+            </p>
+          </li>
+          <li class="highlight">
+            <div class="highlight-background">
+              <p>
+                The 2nd main thing was that I felt that even in those two short weeks, you loved me better than anyone
+                ever has.  If there was a single moment that epitomized it, I would say that it was on the Wednesday
+                evening after we had worked from home together and we were lounging in my room.  We had a few light
+                puffs of that joint you helped me roll.  We were on the bed and I was cuddling on top of you.  I
+                remember looking directly in your eyes and what I saw,.. I mean my heart just melted.
+              </p>
+              <p>
+                When I smoke, sometimes when it hits just right, I get hyper sensitive to what other people are feeling,
+                it’s almost like I can read minds.  When I looked into your eyes, I read your mind too.  All I said was
+                something like “You <em>DO</em> like me.”  But what I saw when I read your mind that night, no ones ever looked
+                at me the way you did or felt about me the same way.  The feeling I felt from you, it looked like the
+                feeling of someone who’s come to the end of a long search and finally found someone who might be her
+                soulmate.  A soulmate who was too stupid to realize it yet.  The main emotion I felt from you was nerves.  Like
+                he doesn’t realize it yet, and he’s not quite there yet, I don’t want to say or do anything that’ll confuse him,
+                until he gets there - no matter what, I want to keep him.
+              </p>
+              <p>
+                This all sounds like alot and maybe a little conceited, maybe it's just wishful thinking and projection 😂.
+                I don’t mean it to be, it’s just how I interpreted
+                your energy.  Maybe my read was completely off, but it’s what kept me going these 2 years, knowing that deep
+                down at one point you could feel that strongly about me.  It just made me feel like, if I could just convince
+                her to give it a shot I would die to see that look again.  It’s the kind of look that even if I was starving
+                and cold, down on my luck, a single look would be enough to make my heart feel full, satiated, and warm, and
+                life’s problems would just feel so small in comparison.  The kind of look that I would trade a life of wealth
+                and material comfort in a heart beat for.  You have a real gift, maybe I’m being ridiculous, but that’s why
+                in my heart, since I met you, there’s only ever really been space for you.
+              </p>
+            </div>
+          </li>
+        </ol>
+        <p>
+          Okay!  Enough of this gushy stuff.
+        </p>
+        <p>
+          Have you seen My Sassy Girl?  It’s about this guy and girl who meet shortly after the girl’s boyfriend dies!  They
+          hang out for a bit, but once they start getting close, she has to push him away, she’s just not ready, it’s
+          like she has a three month rule or something 🙃 (also her boyfriend just died).  Anyways, like 2 years later,
+          they’re sitting at a restaurant with this new guy she’s about to start dating and he tells the new guys 10
+          rules to help him win her heart.  Here’s a link to the
+          <a href="https://www.youtube.com/watch?v=rZQ6xoMEa4E" target="_blank">super cute scene</a>.
+        </p>
+        <p>
+          So I’ll end this section here, but if you’re interested in more things that I loved about you, give the window
+          below a scroll.  I’ve included my version of the 10 things, except I couldn’t stop at 10 😝
+        </p>
+
+
+
+        <!-- Carousel -->
+        <div class="slider">
+          <div class="slider-background">
+            <div class="slide-wrapper">
+              <div class="slide">              
+                You are really thoughtful and really pay attention to the details.  I was touched by
+                that eye-mask you bought me after you noticed I cover my face with a t-shirt when I sleep.
+                I still have that eye mask.
+              </div>
+              <div class="slide">
+                In the same vein of thoughtfulness, you took me winter clothes shopping multiple times
+                when you knew I needed winter clothes.  I won't forget that.
+              </div>
+              <div class="slide">
+                You somehow remembered that I love molten chocolate cake and introduced me to spot dessert
+                for my first time.  I still think about that when I go to that spot, but it never feels
+                quite the same as that first time.  I'm also amazed how you remembered that.
+              </div>
+              <div class="slide">
+                I loved your artsy vibe.  I still have that miniature pumpkin that you decorated with your
+                eye-liner from our first date.  I thought about burying it a bunch of times as a symbol of
+                closure, but could never get myself to do it.  It's sort of dried out now 😅.
+              </div>
+              <div class="slide">
+                I always regretted never having had a chance to flip through your sketch book.  I've always
+                been curious to see what sorts of things interest you and that you like to sketch.  As John
+                Legend would say, "what's going on in that beautiful mind?"  I'd like to know.
+              </div>
+              <div class="slide">
+                (Part 1)
+                Speaking of gifts, I also held on to that purple quartz rock you gave me.  I also wanted to gift
+                you this beautiful pink rose quartz stone I picked out for you.  Among other things it symbolizes unconditionally love.
+                Love of all kinds, including friends, family, siblings, and also romantic.
+              </div>
+              <div class="slide">
+                (Part 2)
+                It sort of sums up how
+                I'll always feel about you.  Even if we never speak again, I'll always be thankful for the time
+                we shared and love you for that.  I was planning to give you
+                the stone when
+                we were supposed to have lunch last winter because it also symbolizes new beginnings.  I just wanted
+                you to know.
+              </div>
+              <div class="slide">
+                I really love your energy.  I love how confident you are in who you are and how you are so yourself.
+                I love how you aren't trying to be anyone else but you and you live by your own standards.  I've always
+                been envious of people like that and I've always admired you for that.
+              </div>
+              <div class="slide">
+                I loved the cute little couply gestures you would do like going into revolving doors together.  I'm actually
+                into that stuff and I won't let us walk past a pole on opposite sides.  I guess one must have slipped
+                through though seeing as how we're no longer talking 😔.
+              </div>
+              <div class="slide">
+                You introduced me to so many firsts.  I loved how confident and experienced you were with
+                winter jackets, truffle pizza, psychedelics, bedroom / pegging 😂.  I guess the first time is
+                hard to forget.  I always wished I had the chance to return the favor one day.
+              </div>
+              <div class="slide">
+                You are legit the best communicator I have ever met and I firmly believe the quality of your communication
+                is the quality of your life.  It's probably one of the main reasons I fell so hard and so fast for you.
+              </div>
+              <div class="slide">
+                I love how you always do a compliment sandwich when delivering constructive feedback.  I remember you gave your
+                sister some advice one time about how she should have handled a situation and you ended it with "and here's
+                a picture of me as a dog."  That was so sweet, I loved it.  Thank you for always being that way with me too.
+              </div>
+              <div class="slide">
+                Thank you for being patient with me.  It doesn't seem like there are any guys who can match you in relationship
+                experience.  I'm thankful that you took me along for the ride, and let me try my best to learn and keep up with you.
+              </div>
+              <div class="slide">
+                Thank you for that time we couldn't find Haiyin's boyfriend's apartment and you were letting me navigate and despite
+                my going the wrong way and your knowing how to get there the whole time you still let me drive.  I thought that
+                was really tactful and I always appreciated how you handle things like that.
+              </div>
+              <div class="slide">
+                I like your voice.  Your voice is thick and sexy and feminine and confident all
+                wrapped up in a perfect little package.  I like the way you smell too.
+              </div>
+              <div class="slide">
+                I wanted you to know that I keep a cabinet full of bottled water in case you ever come back into my life.
+                Sparkling, still, and flavored water.  We both know tap water is bad for you.
+              </div>
+              <div class="slide">
+                (Part 1) I like exactly how big you are.  I love that when we cuddled back then your body fit perfectly
+                between my arms.  Back then when I showed you pictures of my ex's, it's because I wanted you to
+                feel confident in knowing that you were my type physically.
+              </div>
+              <div class="slide">
+                (Part 2) I could be wrong, but I thought
+                I sensed a little insecurity, maybe not about your looks but about something.  I just wanted to
+                boost you up.  I've always been into
+                small cute girls.
+              </div>
+              <div class="slide">
+                I loved the way you made me feel wanted and needed.  Like when you texted me "come back to me"
+                that one time I went downstairs to buy tampons.  It's cute and I want that back in my life.
+              </div>
+              <div class="slide">
+                I loved how you were always working hard to add value to my life.  Like cleaning up the dinner right after
+                we ate because you were "used to it" because of your dog.  Or telling me about how much bacteria is
+                on the wooden benches in the subway.  I loved your energy and desire to contribute.
+              </div>
+              <div class="slide">
+                (Part 1) I loved how eager you were to come over that one time I made you a cocktail and you stumbled over
+                the basketball and I was holding a knife and there could have been a disaster.  My reflexes were definitely 
+                too fast for that to happen, but if it did... 
+              </div>
+              <div class="slide">
+                (Part 2) If it did, I want you to know I would have loved you just the same and stayed with you and
+                made sure you felt beautiful everyday and cursed out anyone who even though about looking at you funny.
+              </div>
+              <div class="slide">
+                I love that you like sitting on the same side of the table as your person at restaurants.  I thought I was the only
+                one who liked it.  I'm planning to make my partner sit with me and am prepared for a life time
+                of weird looks from everyone.
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-next">></button>
+          <button class="btn btn-prev"><</button>
+          <button class="btn btn-random">🤔</button>
+        </div>
+        <p></p>
+      </div>
+      <button class="accordion">About me - What do I bring to the table?</button>  
+      <div class="panel">
+        <p>
+          Oh you’re still reading?  Well if somewhere in the back of your mind you were toying with
+          the ghost of possibility of a remote chance of hypothetically talking to me again.  What
+          would I bring to the table?  I understand we didn’t get a chance to <em>really really</em> get to know
+          each other back then.  I remember you asked me if I was good at smash, or basketball, or had a
+          lot of friends, like you expected me to impress you.  I wanted you to find out slowly over time,
+          but now seeing as I may never get the chance, I guess I’ll have to put together this weird list.
+          Lol. So here are some of the things I’m good at.
+        </p>
+        <p>
+          Also a quick note, before we dive in.  When you freaked out that time when I asked you to just
+          buy me the Canada Goose jacket.  And when I tried to buy your favorite van leuwen flavors for our
+          psychedelic weekend (Black Sesame, Green Tea, Pistachio, and I forgot the fourth 😅).  It's like every kind
+          gesture I would do would just push you away.  How could you expect someone to put in effort or
+          try to impress you?  Just saying, you had me thoroughly confused.  Anyways, on to the weird list.
+        </p>
+        <ol>
+          <li>
+            I’m responsible - I never ended up cracking that iPhone 8 I had back then, and I still don’t use
+            a case on my phone these days.
+          </li>
+          <li>
+            I’m healthy - No known health conditions, no history of anything in the family, no broken bones,
+            only 1 cavity, no contacts, can digest milk, work out religiously to stay slim and I’m mindful of eating my fruits
+            and veggies.  And my parents instilled pretty healthy eating habits which still persist to this day.  Although
+            some of the healthy food is sort of gross haha.
+          </li>
+          <li>
+            Speaking of parents, I have a good relationship with mine, we talk to each other and help each other out.  And
+            my mom is super sweet, really giving, and not the type of person where’d there be any weird tension between her
+            and a daughter in law.  My mom’s mom actually lives with a daughter in law and they get along really well and she’s
+            welcomed and part of the family and that’s just how things are done in the family.  Also speaking of parents,
+            did I ever tell you my mom's a monkey and my dad's a dragon.  And I'm a dragon too o_O
+          </li>
+          <li>
+            I’m honest - If you think I’m a big baby, then you know that babies are way too innocent to lie.  Ya I grew up in
+            a pretty soft environment, but I’m actually proud of being soft.  It means you’re still willing to trust and to
+            love without holding back and that the world hasn’t made you jaded.  I bring this up because you called me out
+            once for being soft.  If I become not soft one day then that’ll mean the world won, and that I let the ugly parts
+            of it change me, I’ll learn from those parts, but I’ll never want to let them make me anything but soft.
+          </li>
+          <ul>
+            <li>
+              Also babies would never purposely splash soy sauce on someone.  I still don’t really understand what you were
+              getting at with that, but it kind of makes you wonder what kind of world would someone comes from where that’s
+              even a thing.  I can’t honestly say I’ve ever met anyone besides Glady’s who “fell down some stairs” either.  I
+              don’t really get it and maybe I’m misunderstanding things, but if not, I always hoped to show you a different
+              type of world.
+            </li>
+            <li>
+              Also, in the world I come from, women don’t get used for their bodies.  If two people decide to get intimate
+              early on, it’s because they like each other and that’s it.  It’s really that simple.  Women are super empowered
+              these days and can decide for themselves what they want - especially in the bay where it's like 10 guys to a girl.
+              So I just wanted you to know that I didn’t mean any disrespect by it.  And if you felt like I was pushy I'd say more
+              than anything I wanted to build intimacy (emotional) quickly since it seemed like you were talking to so many other
+              guys and also not too sure of what you wanted.  Anyways, I just wanted you to know how I felt.
+            </li>
+          </ul>
+          <li>
+            I listen - Maybe not right away, but I've gotten the feedback from partners that if they tell me where
+            I messed up and why, I'll think about it, sleep on it, and eventually understand and act on it.  And that's 
+            what I want and who I am, to continue to grow and get better everyday so I can be the best partner and just generally
+            best person that I can be.  And let's be real, I don't care how experienced someone is in relationships,
+            they are never going to get EVERYTHING right, so better to be open to conflict resolution and growth than to be
+            experienced and closed-minded.  Wouldn't you agree?            
+            And if you tell me you "don't feel that way about me" for the millionth time, I guess I'll have no choice
+            but to accept it this last time 😭.
+          </li>
+          <li>
+            <p>
+              People like me and I have a good range.  I’m good at building relationships with a wide variety / diversity of people
+              and I’ve built a moderately good network in NY as well.  I don’t care about labels and paper qualifications as much
+              and I really enjoy down to Earth party people.  I mention “party people” because I really value soft skills.  The qualify
+              of your communication is the quality of your life!  I can also hold my own with the bougie HBS, HLS, types.  As well as
+              the weeby engineering type I see at Google all the time.  The main filter criteria I have is strong character, it’s harder
+              to trust people who don’t live by a code.  I also know multiple 6 ft+, asian millionaires so there are reasons to know
+              me 😂.
+            </p>
+            <p>
+              Of course I don’t like sharing my network with people who have not or do not intend to add value
+              to my life of equal value.  Or who aren't even close enough with me to jump on the phone. I think you know what
+              I'm getting at, and I don't mean to be mean, but someone once told me "You can't just take whatever you want" and
+              it's something I took to heart.  I guess I just wanted to share in the spirit of my desiring closure and getting it
+              all out.
+            </p>
+          </li>
+          <li>
+            <p>
+              I have a huge collection of great music.  I can talk your ear off about it, and my knowledge is historical and broad.  There
+              are some artists that only ever got big in SoCal, there are some artists that are only big within certain demographics.  You
+              will be kept in the know and have the opportunity to explore a lot!  I remember also mentioning back then that people fall
+              in love at Raves.  That experience could still be on the table.  I also play guitar and you know I produce a bit of EDM.
+            </p>
+            <p>
+              Also did you know that Halsey went to RISD for one year before transferring out.  Guess she got bored of playing with
+              clay too. 😂
+            </p>
+          </li>
+          <li>
+            I’m generally athletic and can literally teach you any sport.  My favorite store growing up back in the day were sporting
+            goods stores.  I loved the smell of sports equipment, and have tons of sports knowledge I can impart on to you.  My main
+            specialties would be tennis, basketball, ping pong, rock climbing, baseball, football, long boarding.  I even dabbled in roller hockey
+            a bit as a kid.  I can also talk your ear off about pro tennis including the US Open in flushing, and to a lesser degree
+            pro basketball.  I can also make ping pong fun for newbies and teach you the ropes (literally) at a rock climbing gym 😝.
+          </li>
+          <li>
+            I’m a good driver.  I grew up in SoCal and lived in LA for 5 years as an adult so I know a thing or two about driving through
+            traffic, parallel parking, parking on hills.  We also road trip to Tahoe (snowboarding) and Vegas (party) a lot in California
+            and I’m pretty competent on long drives.  A nice road trip with the right music and your favorite person 👌👌.
+            And I’ve owned two stick shifts so it’s something I’d be open to teaching and sharing 😝.
+          </li>
+        </ol>
+        <p>
+          Okay!  Enough of this self promotion.  This is so not me, but I'm also sad you'll never get to discover any of this for
+          yourself.  So I just wanted you to know.
+        </p>
+      </div>
+      <button class="accordion">What now?</button>  
+      <div class="panel">
+        <p>
+          Well B, you've touched me in ways no one else ever could, and hurt me in ways that I've never felt before.
+          Despite all that, I'm still crazy about you.  You taught me what it meant to be truly happy with someone, that
+          there was more to it than what I'd experienced so far in my life.
+        </p>
+        <p>
+          In the past two years, I've tried things out with a few other people, but no one even comes close to you.  When you said
+          that I could do so much better than you, did you mean a girl who's good on paper?  And that's not to say that you aren't, 
+          I'm just interpreting it the only way I can imagine you to mean it.  Well, I've tried things out with a few,
+          MBA grads, doctors, girls who are on the fast track to the C-suite, girls who parents have trusts and huge real estate portfolios
+          for them to inherit and who live in fancy condos in the city.  It just confirmed what I've always known, none of that stuff
+          matters to me at all.  They don't stack up to you.  I've literally thought about
+          you while I'm out with them and then I'm suddenly sad, sad at what I missed out on.  Sad that we never gave it a shot.
+        </p>
+        <p>
+          I know I'm not that good in the beginning.  I actually don't have very much experience going after the girl
+          I'm into.  I think I just get too nervous or overthink and always mess things up.  But if we're talking about a lifetime, I'd like to think that the begining is such a small piece
+          of the pie.  Fancy dinners, and impressing girls with your ability to ice skate, these things just seem
+          so superficial compared to a lifetime of, working hard to get to know people your partner cares about, sitting
+          with her when she's sick and bringing her gatorade and chicken soup, learning about your partner's interests and
+          being opened minded to trying things out that you think you'll hate, holding her hair back and rubbing her back
+          while she's vomitting in the Google bathroom after a crazy night 😂, going after shared goals together like
+          creating a business together or youtube channel or looking for the best place to buy a forever home and planning
+          for a family.  Like you said, guys stop trying after the beginning, so what's left after that.  Who someone really
+          is deep down.  I'd like to think that's where I shine, why people like to keep me in their life long term.
+        </p>
+        <p>
+          My dad's not super romantic either and sometimes he's downright cranky and hard to be around.  I asked my mom
+          once, why she married him.  Despite all that crankiness, he's responsible and honest and takes care of the family.
+          He's a man in ways that aren't that flashy and my mom understands and appreciates that.
+        </p>
+        <p>
+          I guess this thinking is very bay area.  It's more practical, it's not flashy, and it takes a lot longer to
+          appreciate someone for these things.  But these are the things I value and care about and all the girls who've loved
+          me, I can only imagine that's what they saw in me, cause I clearly have no game.  I saw these things in you too, I know you value them.  I guess
+          I just didn't realize you cared so much about the beginning and the romance too.  Especially with all your relationship
+          experience, I know you know what the important things really are.
+        </p>
+        <p>
+          The way I see it, living well is an art.  And with art there is no destination, you just constantly work hard to
+          be better than you were yesterday and see how far you get.  So if there's one thing I'll take away from never getting
+          a shot with the most amazing girl that's ever walked into my life, it's the awareness of this side of things, of romance and 
+          the chase in the beginning stages of a relationship.  You've given
+          me a new color to paint with.  I'm not very good at it yet, but at least I know it exists now.  And maybe just maybe
+          when the second most amazing girl pops into my life, the portrait of my life will be refined enough for her to love me back.
+        </p>
+        <p>
+          And when that day comes, I wonder if I'll half hope to never see you again.  Because you'll be the only person who knows
+          that I settled for number two.  Or will that day never come because no one will ever compare to the mark
+          you've left on my heart.  Le sigh 😔.  If you never love me back, I really hope this letter helps me get over you.  And I hope
+          you have an amazing life and find what you're looking for.  The man you choose is a truly lucky person and I hope
+          he understands that and appreciates all that you have to offer.
+        </p>
+        <p>
+          Thank you for everything.  Real talk, you were the most life changing thing that's ever happened to me.  Stay amazing.
+        </p>
+        <p>
+          Yours truly, <br/>
+          K
+        </p>
+      </div>
+      <p></p>
+    </div>
+  </body>
+
+  <!-- Accordion Stuff -->
+  <script>
+    const acc = document.getElementsByClassName("accordion");
+    const onClick = (e) => {
+      const thisElm = e.srcElement;
+      thisElm.classList.toggle("active");
+      const panel = thisElm.nextElementSibling;
+      if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
+      } else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+      }
+    }
+    for (let i = 0; i < acc.length; i++) {    
+      acc[i].addEventListener("click", onClick);
+      acc[i].addEventListener("click", (e) => {
+        if (e.keyCode === 13) onClick();
+      });
+    }
+    const toggleFirstAccordion = () => document.getElementsByClassName("accordion")[0].click();
+  </script>
+
+  <!-- Carousel Stuff -->
+  <script>
+    const slides = document.querySelectorAll(".slide");
+    const slideWrapper = document.querySelector(".slide-wrapper");
+    const maxSlide = slides.length - 1;
+    let curSlide = 0;
+
+    slides.forEach((slide, indx) => {
+      slide.style.transform = `translateX(${indx * 100}%)`;
+      const p = document.createElement('p');
+      n = indx < 12 ? indx + 1 : indx + 2;
+      p.textContent = `Reason #${n}`;
+      slide.insertBefore(p, slide.firstChild);
+    });
+
+    const nextSlide = document.querySelector(".btn-next");
+    const prevSlide = document.querySelector(".btn-prev");
+    const randomSlide = document.querySelector(".btn-random");
+    
+    const getIncrementFunction = (incrementAmount) => {
+      return () => {
+        origSlide = curSlide;
+        curSlide = (curSlide + incrementAmount) % slides.length;
+        curSlide = (curSlide + slides.length) % slides.length;
+        while (origSlide === curSlide) {
+          curSlide = (origSlide + Math.floor(Math.random() * slides.length)) % slides.length;
+        }
+        slideWrapper.style.transform = `translateX(-${100 * curSlide}%)`;
+      }
+    }
+    nextSlide.addEventListener('click', getIncrementFunction(1));
+    prevSlide.addEventListener('click', getIncrementFunction(-1));
+    randomSlide.addEventListener('click', getIncrementFunction(0));
+  </script>
+
+  <!-- Password functionality -->
+  <script>
+    const inputPass = document.querySelector('#inputPass');
+    const subPass = document.querySelector('#subPass');
+    const errPass = document.querySelector('#errPass');
+    let attempts = 0;
+    const enterPassword = ()=>{
+        if (inputPass.value.toLowerCase() !== 'purple') {
+            inputPass.value = '';
+            attempts++;
+            errPass.textContent = attempts > 1 ? 'That is incorrect.\nHint: 6 letters' : 'That is incorrect.';
+        } else { //correct password!
+            document.querySelector('#password').style.display = 'none';
+            document.querySelector('#main').style.display = '';
+            updateTitles();
+            toggleFirstAccordion();
+        }
+    };
+    subPass.addEventListener('click', enterPassword);
+    inputPass.addEventListener('keydown', (e) => {
+        if (e.keyCode === 13) enterPassword();
+    });
+    inputPass.focus();
+  </script>
+
+  <!-- Dev Mode -->
+  <script>
+    //dev mode
+    //const dev = true;
+    if (dev) {
+        inputPass.value = 'purple';
+        enterPassword();
+    }
+  </script>
+</html>
