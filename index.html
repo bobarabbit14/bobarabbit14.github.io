@@ -793,13 +793,13 @@
   
   <!-- User Agent -->
   <script>
-    if (navigator.userAgent?.indexOf('iphone') > -1 || navigator.userAgent?.indexOf('android') > -1) {
+    const regex = /android|iphone/i;
+    if (regex.test(navigator.userAgent)) {
         const panels = document.querySelectorAll('.panel');
         panels.forEach(panel => {
-            panel.style.fontSize = '18px';
+            panel.style.fontSize = '15px';
         });
     }
-    document.querySelector('#debug').textContent = navigator.userAgent;
   </script>
 
   <!-- Dev Mode -->
