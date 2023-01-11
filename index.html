@@ -793,12 +793,12 @@
   
   <!-- User Agent -->
   <script>
-    //if (navigator.userAgent?.indexOf('iphone') > -1 || navigator.userAgent?.indexOf('android') > -1) {
+    if (navigator.userAgent?.indexOf('iphone') > -1 || navigator.userAgent?.indexOf('android') > -1) {
         const panels = document.querySelectorAll('.panel');
         panels.forEach(panel => {
             panel.style.fontSize = '20px';
         });
-    //}
+    }
   </script>
 
   <!-- Dev Mode -->
